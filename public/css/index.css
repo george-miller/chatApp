@@ -1,0 +1,12 @@
+body{
+	margin:0px;
+	padding:0px;
+}
+
+#messageContainer{
+	width:100vw;
+	height: 90vh;
+}
+#messageInput{
+	width:90%;
+}

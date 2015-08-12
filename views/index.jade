@@ -1,5 +1,11 @@
-extends layout
+html
+	head
+		link(rel="StyleSheet" href='/css/index.css')
+		title Chat App!
+		script(src="/js/jquery.js")
+		script(src="/js/index.js")
+	body
+		div#messageContainer Hello
+		input#messageInput(type="text")
+		button(type="button" onclick='postMessage("#messageInput");') Send
 
-block content
-  h1= title
-  p Welcome to #{title}
