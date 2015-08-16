@@ -6,7 +6,7 @@ html
 		script(src="/socket.io/socket.io.js")
 		script(src="/js/index.js")
 	body
-		div#messageContainer Hello
+		ul#messageContainer
 		input#messageInput(type="text")
-		button(type="button" onclick='postMessage("#messageInput");') Send
+		button#messageSendButton(type="button" onclick='postMessage("#messageInput");') Send
 
