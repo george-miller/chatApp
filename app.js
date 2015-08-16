@@ -20,8 +20,8 @@ io.on('connection', function(socket){
 	socket.on('disconnect', function(){
 		console.log("a user logged off");
 	});
-	socket.on('messageToServer', function(message){
-		db.newComment(io, message, new Date(), "test");
+	socket.on('messageToServer', function(messageJson){
+		db.newComment(io, messageJson.message, new Date(), messageJson.user);
 	})
 });
 
