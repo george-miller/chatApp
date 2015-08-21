@@ -12,17 +12,23 @@ body{
 }
 #messageInput{
 	width:90%;
-	min-height: 30px;
+	height: 30px;
 }
 #messageSendButton{
 	width: 10%;
-	min-height: 30px;
+	height: 30px;
 }
 hr{
 	margin:0px;
 }
 li {
 	clear:both;
+}
+li.dateBanner{
+	text-align:center;
+	border: 1px dotted;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 li > .messageUser{
 	float:left;
@@ -42,7 +48,10 @@ li > .messageDate{
 		width:100px;
 	}
 	li > .messageContent{
-		width : calc(90% - 100px);
+		width : calc(100% - 100px - 60px);
+	}
+	li > .messageUser{
+		width: 60px
 	}
 }
 

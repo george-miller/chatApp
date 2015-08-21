@@ -14,6 +14,7 @@ var db = require("./lib/db.js");
 var http = require('http').createServer(app);
 var io = require('socket.io').listen(http);
 
+
 io.on('connection', function(socket){
 	console.log("a user logged in");
 	db.getCollectionAndEmit(socket, 'messageArchive');
@@ -21,7 +22,7 @@ io.on('connection', function(socket){
 		console.log("a user logged off");
 	});
 	socket.on('messageToServer', function(messageJson){
-		db.newComment(io, messageJson.message, new Date(), messageJson.user);
+		db.newMessage(io, messageJson.message, new Date(), messageJson.user);
 	})
 });
 

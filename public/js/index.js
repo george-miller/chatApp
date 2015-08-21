@@ -15,6 +15,20 @@ $(document).ready(function(){
 var socket = io();
 var user = "anon";
 
+socket.on('messageFromServer', function(msgJson){appendMessageFromJson(msgJson)});
+
+socket.on('listOfMessages', function(list){
+	for (var i = 0; i < list.length; i++){
+		if (list[i].message != null){
+			appendMessageFromJson(list[i]);
+		}
+	}
+	$("#messageContainer").append(
+		"<li>You are not logged in.  Please login with '/login &lt;username&gt;'</li>");
+	var messageContainer = document.getElementById("messageContainer");
+	messageContainer.scrollTop = messageContainer.scrollHeight
+});
+
 var postMessage = function(inputId){
 	console.log("posting...");
 	var val = $(inputId).val();
@@ -26,9 +40,10 @@ var postMessage = function(inputId){
 	if (val.substring(0,1) == "/"){
 		console.log("command");
 		processCommand(val.substring(1,val.length));
-		return;
 	}
-	socket.emit('messageToServer', { "message": val, "user": user});
+	else{
+		socket.emit('messageToServer', { "message": val, "user": user});
+	}
 }
 var processCommand = function(val){
 	var valIndex = 0;
@@ -44,8 +59,8 @@ var processCommand = function(val){
 	}
 }
 var appendMessageFromJson = function(msgJson){
-	previousMessage = msgJson;
 	addDateBannerIfNecessary(msgJson);
+	previousMessage = msgJson;
 	$('#messageContainer').append(
 		"<li>" +
 			"<div class='messageUser'>" +
@@ -63,28 +78,21 @@ var appendMessageFromJson = function(msgJson){
 };
 var addDateBannerIfNecessary = function(msgJson){
 	if (previousMessage == null){
-		console.log("Prev was null");
+		$('#messageContainer').append(
+			"<li class='dateBanner'>" + (msgJson.dateObject.month+1) + "/" +
+			(msgJson.dateObject.day+1) + "/" +
+			(msgJson.dateObject.year) + "</li>"	
+		);
 		return;
 	}
-	$('#mesageContainer').append(
-		"<li>" + (msgJson.dateObject.month+1) + "/" +
-		(msgJson.dateObject.day+1) + "/" +
-		(msgJson.dateObject.year+1) + "</li>"	
-	);
-
-}
-
-
-socket.on('messageFromServer', function(msgJson){appendMessageFromJson(msgJson)});
-
-socket.on('listOfMessages', function(list){
-	for (var i = 0; i < list.length; i++){
-		if (list[i].message != null){
-			appendMessageFromJson(list[i]);
-		}
+	if (previousMessage.dateObject.date != msgJson.dateObject.date ||
+			previousMessage.dateObject.month != msgJson.dateObject.month ||
+			previousMessage.dateObject.year != msgJson.dateObject.year
+			){
+		$('#messageContainer').append(
+			"<li class='dateBanner'>" + (msgJson.dateObject.month+1) + "/" +
+			(msgJson.dateObject.day+1) + "/" +
+			(msgJson.dateObject.year) + "</li>"	
+		);
 	}
-	$("#messageContainer").append(
-		"<li>You are not logged in.  Please login with '/login &lt;username&gt;'</li>");
-	var messageContainer = document.getElementById("messageContainer");
-	messageContainer.scrollTop = messageContainer.scrollHeight
-});
+}
