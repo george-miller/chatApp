@@ -37,6 +37,15 @@ li > .messageDate{
 	float:left;
 	width:20%;
 }
+@media (max-width: 480px){
+	li > .messageDate{
+		width:100px;
+	}
+	li > .messageContent{
+		width : calc(90% - 100px);
+	}
+}
+
 ::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 1px #000; 
 }

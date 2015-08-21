@@ -1,11 +1,13 @@
 var onMobile = false;
+var previousMessage = null;
 $(document).ready(function(){
 	$("#messageInput").keydown(function (event){
 		if (event.keyCode == 13){
 			postMessage("#messageInput");
 		}
 	});
-	if ($(document).width() < 480){
+	if ($(window).width() < 480){
+		console.log("Mobile!");
 		onMobile = true;
 	}
 });
@@ -42,7 +44,8 @@ var processCommand = function(val){
 	}
 }
 var appendMessageFromJson = function(msgJson){
-	var dateString = (onMobile ? msgJson.time.dateForMobile : msgJson.time.dateString);
+	previousMessage = msgJson;
+	addDateBannerIfNecessary(msgJson);
 	$('#messageContainer').append(
 		"<li>" +
 			"<div class='messageUser'>" +
@@ -51,13 +54,27 @@ var appendMessageFromJson = function(msgJson){
 			msgJson.message +
 			"</div>" +
 			"<div class='messageDate'>" +
-			dateString +
+			msgJson.dateObject.time +
 			"</div>" +
 		"</li>"
 	);
 	var messageContainer = document.getElementById("messageContainer");
 	messageContainer.scrollTop = messageContainer.scrollHeight
 };
+var addDateBannerIfNecessary = function(msgJson){
+	if (previousMessage == null){
+		console.log("Prev was null");
+		return;
+	}
+	$('#mesageContainer').append(
+		"<li>" + (msgJson.dateObject.month+1) + "/" +
+		(msgJson.dateObject.day+1) + "/" +
+		(msgJson.dateObject.year+1) + "</li>"	
+	);
+
+}
+
+
 socket.on('messageFromServer', function(msgJson){appendMessageFromJson(msgJson)});
 
 socket.on('listOfMessages', function(list){
