@@ -1,9 +1,13 @@
+var onMobile = false;
 $(document).ready(function(){
 	$("#messageInput").keydown(function (event){
 		if (event.keyCode == 13){
 			postMessage("#messageInput");
 		}
 	});
+	if ($(document).width() < 480){
+		onMobile = true;
+	}
 });
 
 var socket = io();
@@ -37,8 +41,8 @@ var processCommand = function(val){
 		messageContainer.scrollTop = messageContainer.scrollHeight
 	}
 }
-
-socket.on('messageFromServer', function(msgJson){
+var appendMessageFromJson = function(msgJson){
+	var dateString = (onMobile ? msgJson.time.dateForMobile : msgJson.time.dateString);
 	$('#messageContainer').append(
 		"<li>" +
 			"<div class='messageUser'>" +
@@ -47,28 +51,19 @@ socket.on('messageFromServer', function(msgJson){
 			msgJson.message +
 			"</div>" +
 			"<div class='messageDate'>" +
-			msgJson.time.dateString +
+			dateString +
 			"</div>" +
 		"</li>"
 	);
 	var messageContainer = document.getElementById("messageContainer");
 	messageContainer.scrollTop = messageContainer.scrollHeight
-});
+};
+socket.on('messageFromServer', function(msgJson){appendMessageFromJson(msgJson)});
+
 socket.on('listOfMessages', function(list){
 	for (var i = 0; i < list.length; i++){
 		if (list[i].message != null){
-			$('#messageContainer').append(
-				"<li>" +
-					"<div class='messageUser'>" +
-					list[i].user + "</div>" +
-					"<div class='messageContent'>" +
-					list[i].message +
-					"</div>" +
-					"<div class='messageDate'>" +
-					list[i].time.dateString +
-					"</div>" +
-				"</li>"
-			);
+			appendMessageFromJson(list[i]);
 		}
 	}
 	$("#messageContainer").append(
