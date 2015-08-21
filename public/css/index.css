@@ -32,27 +32,16 @@ li.dateBanner{
 }
 li > .messageUser{
 	float:left;
-	width:10%;
+	width:90px;
 }
 li > .messageContent{
 	float:left;
-	width:70%;
+	width : calc(100% - 192px);
 	word-wrap: break-word;
 }
 li > .messageDate{
 	float:left;
-	width:20%;
-}
-@media (max-width: 480px){
-	li > .messageDate{
-		width:100px;
-	}
-	li > .messageContent{
-		width : calc(100% - 100px - 60px);
-	}
-	li > .messageUser{
-		width: 60px
-	}
+	width:100px;
 }
 
 ::-webkit-scrollbar-track {
