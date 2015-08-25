@@ -1,16 +1,7 @@
 var previousMessage = null;
+var userTypingTimeouts = [];
+var users = [];
 // TODO setTimeout clearTimeout
-window.setInterval(function(){
-	console.log("Get");
-	$(".userTyping").each(function(i){
-		var currentOpacity = $(this).css("opacity");
-		console.log(currentOpacity);
-		if (currentOpacity != 0){
-			var newOpacity = currentOpacity - 0.1 < 0 ? 0 : currentOpacity - 0.1;
-			$("#"+user).css("opacity", newOpacity);
-		}
-	});
-}, 50);
 $(document).ready(function(){
 	$("#messageInput").keydown(function (event){
 		if (event.keyCode == 13){
@@ -40,14 +31,31 @@ socket.on('listOfMessages', function(list){
 	messageContainer.scrollTop = messageContainer.scrollHeight
 });
 socket.on('userIsTyping', function(user){
-	if ($("#"+user).length){
+	console.log(user);
+	var userTimeoutIndex = users.indexOf(user);
+	console.log(userTimeoutIndex);
+	// If the user doesn't currently exist
+	if (userTimeoutIndex == -1) {
+		users.push(user);
+		console.log(users);
+		$("#userTyping").append("<div id='" + user + 
+			"' class='userTyping'>..." + user + "...</div>");	
 		$("#"+user).css("opacity", 1);
+		console.log("fdsaf");
+		var userTimeout = window.setTimeout(function(){stopFunction(user);}, 1000);
+		userTypingTimeouts.push(userTimeout);
+		
 	}
 	else{
-		$("#userTyping").append("<div id='" + user + 
-			"' class='userTyping'>" + user + "</div>");
+		$("#"+user).css("display", "inline");
+		clearTimeout(userTypingTimeouts[userTimeoutIndex]);
+		userTimeout = window.setTimeout(function(){stopFunction(user);}, 1000);
 	}
 });
+var stopFunction = function(user){
+	console.log("Stopped");
+	$("#"+user).css("display", "none");
+};
 
 var postMessage = function(inputId){
 	console.log("posting...");

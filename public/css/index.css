@@ -22,9 +22,9 @@ body{
 	width:100%;
 }
 .userTyping{
-	width:40px;
+	width:60px;
 	float:left;
-	opacity:0;
+	opacity:1;
 }
 hr{
 	margin:0px;
