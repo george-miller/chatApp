@@ -1,14 +1,13 @@
 body{
 	padding:0px;
-	margin:1%;
+	margin:5px;
 }
 #messageContainer{
-	height: calc(100% - 40px);
+	height: calc(100% - 50px);
 	width:100%;
 	overflow: scroll;
 	overflow-x:hidden;
 	list-style: none;
-	margin-bottom:10px;
 }
 #messageInput{
 	width:90%;
@@ -17,6 +16,15 @@ body{
 #messageSendButton{
 	width: 10%;
 	height: 30px;
+}
+#userTyping{
+	height:20px;
+	width:100%;
+}
+.userTyping{
+	width:40px;
+	float:left;
+	opacity:0;
 }
 hr{
 	margin:0px;

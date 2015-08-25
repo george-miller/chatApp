@@ -16,13 +16,17 @@ var io = require('socket.io').listen(http);
 
 
 io.on('connection', function(socket){
-	console.log("a user logged in");
+	console.log(socket.request.connection.remoteAddress + " just logged in");
 	db.getCollectionAndEmit(socket, 'messageArchive');
 	socket.on('disconnect', function(){
 		console.log("a user logged off");
 	});
 	socket.on('messageToServer', function(messageJson){
 		db.newMessage(io, messageJson.message, new Date(), messageJson.user);
+	})
+	socket.on('userIsTyping', function(userJson){
+		console.log(userJson.user);
+		io.emit('userIsTyping', userJson.user);
 	})
 });
 
