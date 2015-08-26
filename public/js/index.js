@@ -26,7 +26,7 @@ socket.on('listOfMessages', function(list){
 		}
 	}
 	$("#messageContainer").append(
-		"<li>You are logged in as 'anon'.  Please login with '/login &lt;username&gt;'</li>");
+		"<li>You are logged in as 'anon'.  If you want a different username, login with '/login &lt;username&gt;'</li>");
 	var messageContainer = document.getElementById("messageContainer");
 	messageContainer.scrollTop = messageContainer.scrollHeight
 });
