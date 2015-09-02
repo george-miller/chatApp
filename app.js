@@ -9,6 +9,7 @@ var routes = require('./routes');
 
 var app = express();
 
+var log = require("./lib/logSystem.js");
 var db = require("./lib/db.js");
 
 var http = require('http').createServer(app);
@@ -16,16 +17,15 @@ var io = require('socket.io').listen(http);
 
 
 io.on('connection', function(socket){
-	console.log(socket.request.connection.remoteAddress + " just logged in");
+	log.log(socket.request.connection.remoteAddress, " just logged in");
 	db.getCollectionAndEmit(socket, 'messageArchive');
 	socket.on('disconnect', function(){
-		console.log("a user logged off");
 	});
 	socket.on('messageToServer', function(messageJson){
+		log.log(socket.request.connection.remoteAddress, " just sent a message - " + messageJson.message);
 		db.newMessage(io, messageJson.message, new Date(), messageJson.user);
 	})
 	socket.on('userIsTyping', function(userJson){
-		console.log(userJson.user);
 		io.emit('userIsTyping', userJson.user);
 	})
 });
@@ -47,5 +47,5 @@ app.use('/', routes);
 app.set('port', 3000);
 
 http.listen(3000, '127.0.0.1', function(){
-	console.log('up');
+	log.log(127001, " up");
 });
