@@ -1,13 +1,14 @@
 html
-	head
-		link(rel="StyleSheet" href=path+'css/index.css')
-		title Chat App!
-		script(src=path+"js/jquery.js")
-		script(src="/socket.io/socket.io.js")
-		script(src=path+"js/index.js")
-	body
-		div#messageContainer
-		div#userTyping
-		input#messageInput(type="text")
-		button#messageSendButton(type="button" onclick='postMessage("#messageInput");') Send
+    head
+        link(rel="StyleSheet" href=path+'css/index.css')
+        link(rel="shortcut icon" href="/george/static/favicon.ico")
+        title Chat App!
+        script(src=path+"js/jquery.js")
+        script(src="/socket.io/socket.io.js")
+        script(src=path+"js/index.js")
+    body
+        div#messageContainer
+        div#userTyping
+        input#messageInput(type="text")
+        button#messageSendButton(type="button" onclick='postMessage("#messageInput");') Send
 
