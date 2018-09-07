@@ -1,6 +1,6 @@
 # Chat App
 
-This is a simple app I created with node.js and socket.io.  It is live [here] (http://gmmotto.ddns.net/node/).
+This is a simple app I created with node.js and socket.io.  It is live [here] (http://georgemyersmiller.com/node/).
 
 # How to run it on your local computer
 You have to [install Node.js] (https://nodejs.org/en/download/package-manager/#windows) and install MongoDB.
